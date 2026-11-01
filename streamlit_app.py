@@ -637,6 +637,28 @@ def get_db():
 
 
 def db_exists():
+    """Check if database exists; automatically bootstrap from transactions.parquet if running on fresh cloud host."""
+    if not DB_PATH.exists() or DB_PATH.stat().st_size == 0:
+        parquet_file = BASE_DIR / "transactions.parquet"
+        if parquet_file.exists():
+            try:
+                DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+                df_init = pd.read_parquet(parquet_file)
+                df_init = df_init.rename(columns={c: c.lower() for c in df_init.columns})
+                if "suspicious_transaction" in df_init.columns:
+                    df_init["is_suspicious"] = df_init["suspicious_transaction"].apply(
+                        lambda x: 1 if str(x).strip().lower() in ["yes", "1", "true"] else 0
+                    )
+                else:
+                    df_init["is_suspicious"] = 0
+                if "fraud_probability" not in df_init.columns and "fraud_risk_score" in df_init.columns:
+                    df_init["fraud_probability"] = (df_init["fraud_risk_score"] / 100.0).round(4)
+                if "top_reasons" not in df_init.columns:
+                    df_init["top_reasons"] = "[]"
+                with sqlite3.connect(str(DB_PATH)) as init_conn:
+                    df_init.to_sql("transactions", init_conn, if_exists="replace", index=False)
+            except Exception:
+                pass
     return DB_PATH.exists()
 
 
