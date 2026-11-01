@@ -1,6 +1,75 @@
 # FraudShield AI — Credit Card Fraud Detection and Transaction Risk Intelligence
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://credit-card-fraud-sheild-ai.streamlit.app/)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Streamlit%20Cloud-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://credit-card-fraud-sheild-ai.streamlit.app/)
+
+> 🚀 **Live Web Application:** [https://credit-card-fraud-sheild-ai.streamlit.app/](https://credit-card-fraud-sheild-ai.streamlit.app/)  
+> Experience the full FraudShield AI interactive detection platform in real time on Streamlit Community Cloud.
+
 An enterprise-grade, end-to-end Credit Card Fraud Detection and Transaction Risk Analysis platform built with a dual Machine Learning architecture (Logistic Regression Fraud Classifier + LightGBM Continuous Risk Score Regressor + Behavioral Heuristic Engine), a robust FastAPI backend with SQLite persistence, and an interactive React + TypeScript + Tailwind CSS analytics dashboard.
+
+---
+
+## 👥 Team & Contributions
+
+> **This is a collaborative group project built by a team of 6 engineers.**
+
+<table>
+  <tr>
+    <th>👤 Member</th>
+    <th>🎯 Role</th>
+    <th>📦 Key Deliverables</th>
+  </tr>
+  <tr>
+    <td><b>SHAURYA</b></td>
+    <td>🗄️ Database & Dataset Cleaning</td>
+    <td>Raw data preprocessing, feature cleaning, data validation & Parquet optimization</td>
+  </tr>
+  <tr>
+    <td><b>DURGA</b></td>
+    <td>🤖 Model Building</td>
+    <td>Fraud classifier, risk score regressor, feature engineering, model evaluation & selection</td>
+  </tr>
+  <tr>
+    <td><b>⭐ NITIN</b></td>
+    <td>🏆 <b>Team Leader</b> · Backend Development</td>
+    <td>Project leadership, architecture design, FastAPI server, API endpoints, SQLite persistence & backend test suite</td>
+  </tr>
+  <tr>
+    <td><b>RIZWAN</b></td>
+    <td>🎨 Frontend Development</td>
+    <td>React + TypeScript UI, interactive dashboards, risk gauge, batch upload & analytics views</td>
+  </tr>
+  <tr>
+    <td><b>SHAFI</b></td>
+    <td>🚀 Model Deployment</td>
+    <td>End-to-end model deployment, production release, Streamlit Cloud deployment & CI/CD pipeline</td>
+  </tr>
+  <tr>
+    <td><b>MOULI</b></td>
+    <td>🧪 Testing & Quality Assurance</td>
+    <td>Integration testing, verification gates, quality assurance & documentation support</td>
+  </tr>
+</table>
+
+### 🔄 Team Workflow
+
+```mermaid
+flowchart LR
+    A["🗄️ SHAURYA\nDataset Cleaning"] --> B["🤖 DURGA\nModel Building"]
+    B --> C["⚙️ NITIN\nBackend API"]
+    C --> D["🎨 RIZWAN\nFrontend UI"]
+    D --> E["🚀 SHAFI\nDeployment"]
+    E --> F["🧪 MOULI\nTesting & QA"]
+    F -.->|"Feedback"| B
+
+    style A fill:#4CAF50,color:#fff
+    style B fill:#FF9800,color:#fff
+    style C fill:#2196F3,color:#fff
+    style D fill:#9C27B0,color:#fff
+    style E fill:#F44336,color:#fff
+    style F fill:#00BCD4,color:#fff
+```
 
 ---
 
@@ -8,25 +77,25 @@ An enterprise-grade, end-to-end Credit Card Fraud Detection and Transaction Risk
 
 ```mermaid
 flowchart TD
-    subgraph Data & Pipeline
-        RawData[credit_card_fraud_transaction_risk_cleaned.xlsx] --> Pipeline[train_pipeline.py]
-        Pipeline --> EDA[notebooks/eda_outputs/]
-        Pipeline --> Artifacts[models/: Classifier, Regressor, Scaler, Encoders, Thresholds]
+    subgraph DPL ["Data & Pipeline"]
+        RawData["credit_card_fraud_transaction_risk_cleaned.xlsx"] --> Pipeline["train_pipeline.py"]
+        Pipeline --> EDA["notebooks/eda_outputs/"]
+        Pipeline --> Artifacts["models/ : Classifier, Regressor, Scaler, Encoders, Thresholds"]
     end
 
-    subgraph Backend Engine [FastAPI @ :8000]
-        Artifacts --> MLEngine[backend/app/ml/engine.py]
-        SQLite[(backend/transactions.db - 25,000+ Records)] <--> TxService[TransactionService]
-        MLEngine --> Routers[Routers: /predict, /predict/batch, /transactions, /dashboard/summary, /health]
+    subgraph BE ["Backend Engine — FastAPI @ port 8000"]
+        Artifacts --> MLEngine["backend/app/ml/engine.py"]
+        SQLite[("backend/transactions.db — 25000+ Records")] <--> TxService["TransactionService"]
+        MLEngine --> Routers["Routers: predict, predict-batch, transactions, dashboard-summary, health"]
         Routers <--> TxService
     end
 
-    subgraph Frontend Interface [React + Vite @ :5173]
-        Routers <--> APIClient[frontend/src/api/client.ts]
-        APIClient --> V1[1. Transaction Check & Gauge]
-        APIClient --> V2[2. Batch CSV Ingestion & Export]
-        APIClient --> V3[3. Transaction Explorer & Modal]
-        APIClient --> V4[4. Fraud Analytics Dashboard]
+    subgraph FE ["Frontend Interface — React + Vite @ port 5173"]
+        Routers <--> APIClient["frontend/src/api/client.ts"]
+        APIClient --> V1["1. Transaction Check & Gauge"]
+        APIClient --> V2["2. Batch CSV Ingestion & Export"]
+        APIClient --> V3["3. Transaction Explorer & Modal"]
+        APIClient --> V4["4. Fraud Analytics Dashboard"]
     end
 ```
 
@@ -155,10 +224,19 @@ npm run dev -- --host 127.0.0.1 --port 5173
 ```
 Access the application at: [http://127.0.0.1:5173](http://127.0.0.1:5173)
 
+### 7. Launch Streamlit Cloud & Local App
+- **Live Deployed App**: [https://credit-card-fraud-sheild-ai.streamlit.app/](https://credit-card-fraud-sheild-ai.streamlit.app/)
+- **Run Locally via Streamlit**:
+```powershell
+streamlit run streamlit_app.py
+```
+
 ---
 
 ## Repository Artifact Directory Structure
 ```
+├── streamlit_app.py                                  # Streamlit Cloud deployment entry point
+├── DEPLOY.md                                         # Streamlit Cloud deployment guide
 ├── credit_card_fraud_transaction_risk_cleaned.xlsx   # Source dataset
 ├── transactions.parquet                               # Optimized dataset
 ├── train_pipeline.py                                 # Phase 1 training pipeline
