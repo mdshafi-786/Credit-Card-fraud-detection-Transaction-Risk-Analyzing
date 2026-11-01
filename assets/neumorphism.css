@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 
 /* ═══════════════════════════════════════════════════════════════════════════
    NEUMORPHISM DESIGN SYSTEM (SOFT UI)
@@ -458,3 +458,135 @@ div[data-testid="stExpander"] {
     overflow: hidden !important;
     margin-bottom: 1.2rem !important;
 }
+
+/* ─── STRIPE RADAR / FINTECH ANALYST HUD ─────────────────────────────────── */
+.radar-hud-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #1e2230 !important;
+    border-radius: 16px !important;
+    padding: 10px 22px !important;
+    margin-bottom: 20px !important;
+    box-shadow: 6px 6px 14px #0e1017, -6px -6px 14px #292e40 !important;
+    border: 1px solid rgba(255, 255, 255, 0.04) !important;
+}
+
+.radar-hud-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.radar-pulse-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 10px #10b981;
+    position: relative;
+}
+
+.radar-pulse-dot::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 1px solid #10b981;
+    animation: radarPulse 1.6s ease-out infinite;
+}
+
+@keyframes radarPulse {
+    0% { transform: scale(0.8); opacity: 1; }
+    100% { transform: scale(2.2); opacity: 0; }
+}
+
+.radar-hud-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #f1f5f9;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.radar-hud-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.radar-chip {
+    background: #151822 !important;
+    border-radius: 10px !important;
+    padding: 5px 12px !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    color: #94a3b8 !important;
+    box-shadow: inset 2px 2px 5px #0e1017, inset -2px -2px 5px #242938 !important;
+    border: 1px solid rgba(255, 255, 255, 0.02) !important;
+    font-family: 'Plus Jakarta Sans', monospace;
+}
+
+/* ─── STATUS BADGES ──────────────────────────────────────────────────────── */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 22px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+}
+
+.badge-fraud {
+    background: #1f1b24 !important;
+    color: #f43f5e !important;
+    border: 1px solid rgba(244, 63, 94, 0.4) !important;
+    box-shadow: 4px 4px 10px #0e1017, -4px -4px 10px #292e40, 0 0 16px rgba(244, 63, 94, 0.25) !important;
+}
+
+.badge-genuine {
+    background: #182220 !important;
+    color: #10b981 !important;
+    border: 1px solid rgba(16, 185, 129, 0.4) !important;
+    box-shadow: 4px 4px 10px #0e1017, -4px -4px 10px #292e40, 0 0 16px rgba(16, 185, 129, 0.25) !important;
+}
+
+.badge-suspicious {
+    background: #231f18 !important;
+    color: #f59e0b !important;
+    border: 1px solid rgba(245, 158, 11, 0.4) !important;
+    box-shadow: 4px 4px 10px #0e1017, -4px -4px 10px #292e40, 0 0 16px rgba(245, 158, 11, 0.25) !important;
+}
+
+/* ─── CUSTOM SCROLLBARS ──────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #141720;
+}
+::-webkit-scrollbar-thumb {
+    background: #242938;
+    border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #6366f1;
+}
+
+/* ─── FOOTER ─────────────────────────────────────────────────────────────── */
+.footer {
+    text-align: center;
+    padding: 24px;
+    color: #64748b;
+    font-size: 0.8rem;
+    background: #151821;
+    border-radius: 18px;
+    box-shadow: inset 3px 3px 8px #0e1017, inset -3px -3px 8px #242938;
+    margin-top: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
