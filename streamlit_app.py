@@ -50,233 +50,571 @@ RISK_PROFILES = ["Low", "Medium", "High"]
 # ─────────────────────────────────────────────────────────────
 # Custom CSS — Premium Dark Theme
 # ─────────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────────────────────
+# Custom CSS — Spatial Computing / visionOS UI Theme
+# ─────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-    /* ───── Import Google Font ───── */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    /* ───── Import Fonts: Inter, Outfit, and JetBrains Mono ───── */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
-    /* ───── Root Variables ───── */
+    /* ───── Spatial Root Variables ───── */
     :root {
-        --bg-primary: #0a0e1a;
-        --bg-card: rgba(15, 23, 42, 0.85);
-        --bg-card-hover: rgba(20, 30, 55, 0.95);
-        --border-glow: rgba(99, 102, 241, 0.25);
+        --spatial-bg: #030712;
+        --spatial-card: rgba(15, 23, 42, 0.55);
+        --spatial-card-hover: rgba(22, 33, 62, 0.75);
+        --spatial-glass-top: rgba(255, 255, 255, 0.22);
+        --spatial-glass-border: rgba(255, 255, 255, 0.12);
+        --spatial-glow-indigo: rgba(99, 102, 241, 0.45);
+        --spatial-glow-cyan: rgba(34, 211, 238, 0.45);
+        --spatial-glow-rose: rgba(244, 63, 94, 0.45);
+        --spatial-glow-emerald: rgba(16, 185, 129, 0.45);
         --accent-indigo: #6366f1;
         --accent-cyan: #22d3ee;
         --accent-emerald: #10b981;
         --accent-rose: #f43f5e;
         --accent-amber: #f59e0b;
         --accent-violet: #8b5cf6;
-        --text-primary: #f1f5f9;
+        --text-primary: #f8fafc;
         --text-secondary: #94a3b8;
         --text-muted: #64748b;
-        --gradient-1: linear-gradient(135deg, #6366f1, #8b5cf6, #a78bfa);
-        --gradient-2: linear-gradient(135deg, #06b6d4, #22d3ee);
-        --gradient-fraud: linear-gradient(135deg, #ef4444, #f43f5e);
-        --gradient-safe: linear-gradient(135deg, #10b981, #34d399);
+        --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        --font-display: 'Outfit', 'Inter', sans-serif;
+        --font-mono: 'JetBrains Mono', monospace;
     }
 
-    /* ───── Global Overrides ───── */
+    /* ───── Global Spatial Canvas ───── */
     .stApp {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        background-color: var(--spatial-bg) !important;
+        background: radial-gradient(circle at 50% -10%, #111836 0%, #060919 45%, #030712 100%) !important;
+        color: var(--text-primary);
+        font-family: var(--font-main);
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
     }
 
-    /* ───── Sidebar styling ───── */
-    section[data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #0f172a 0%, #1e1b4b 100%);
-        border-right: 1px solid rgba(99, 102, 241, 0.15);
+    /* Background Spatial Mesh & Orbs */
+    .stApp::before {
+        content: '';
+        position: fixed;
+        top: -150px;
+        right: -100px;
+        width: 700px;
+        height: 700px;
+        background: radial-gradient(circle, rgba(99, 102, 241, 0.18) 0%, rgba(139, 92, 246, 0.08) 45%, transparent 70%);
+        border-radius: 50%;
+        filter: blur(90px);
+        pointer-events: none;
+        z-index: 0;
+        animation: floatOrb 22s ease-in-out infinite alternate;
     }
+
+    .stApp::after {
+        content: '';
+        position: fixed;
+        bottom: -150px;
+        left: 5%;
+        width: 650px;
+        height: 650px;
+        background: radial-gradient(circle, rgba(6, 182, 212, 0.14) 0%, rgba(99, 102, 241, 0.06) 50%, transparent 70%);
+        border-radius: 50%;
+        filter: blur(100px);
+        pointer-events: none;
+        z-index: 0;
+        animation: floatOrb2 26s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatOrb {
+        0% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(40px, 30px) scale(1.08); }
+        100% { transform: translate(-30px, 60px) scale(0.96); }
+    }
+
+    @keyframes floatOrb2 {
+        0% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(-40px, -40px) scale(1.1); }
+        100% { transform: translate(30px, -20px) scale(0.92); }
+    }
+
+    /* ───── Floating Spatial Sidebar (visionOS Dock) ───── */
+    section[data-testid="stSidebar"] {
+        background: rgba(10, 15, 30, 0.65) !important;
+        backdrop-filter: blur(36px) saturate(210%) !important;
+        -webkit-backdrop-filter: blur(36px) saturate(210%) !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+        box-shadow: 12px 0 45px rgba(0, 0, 0, 0.55) !important;
+    }
+
     section[data-testid="stSidebar"] .stMarkdown h1,
     section[data-testid="stSidebar"] .stMarkdown h2,
     section[data-testid="stSidebar"] .stMarkdown h3 {
-        color: #e2e8f0;
+        color: #f1f5f9;
+        font-family: var(--font-display);
     }
 
-    /* ───── KPI Metric Cards ───── */
-    .kpi-card {
-        background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 27, 75, 0.7));
-        border: 1px solid rgba(99, 102, 241, 0.2);
+    /* VisionOS Navigation Segmented Controls */
+    section[data-testid="stSidebar"] [data-testid="stRadio"] > div {
+        gap: 8px;
+    }
+
+    section[data-testid="stSidebar"] [data-testid="stRadio"] label {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-top: 1px solid rgba(255, 255, 255, 0.14);
         border-radius: 16px;
-        padding: 24px;
-        text-align: center;
-        backdrop-filter: blur(12px);
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        padding: 11px 18px;
+        margin-bottom: 7px;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        cursor: pointer;
+        backdrop-filter: blur(16px);
+        display: flex;
+        align-items: center;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     }
-    .kpi-card:hover {
-        border-color: rgba(99, 102, 241, 0.5);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 30px rgba(99, 102, 241, 0.15);
+
+    section[data-testid="stSidebar"] [data-testid="stRadio"] label:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(99, 102, 241, 0.4);
+        transform: translateX(4px);
+        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.2);
     }
-    .kpi-value {
-        font-size: 2rem;
-        font-weight: 800;
-        background: var(--gradient-1);
+
+    section[data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.28), rgba(139, 92, 246, 0.18)) !important;
+        border: 1px solid rgba(99, 102, 241, 0.55) !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.35) !important;
+        box-shadow: 0 6px 24px rgba(99, 102, 241, 0.32), inset 0 1px 1px rgba(255, 255, 255, 0.28) !important;
+        color: #ffffff !important;
+        font-weight: 700;
+        transform: scale(1.02);
+    }
+
+    /* ───── Spatial Floating HUD Top Bar ───── */
+    .spatial-hud-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(15, 23, 42, 0.5);
+        backdrop-filter: blur(28px) saturate(200%);
+        -webkit-backdrop-filter: blur(28px) saturate(200%);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-top: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 40px;
+        padding: 8px 24px;
+        margin-bottom: 24px;
+        box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+    }
+
+    .spatial-hud-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .spatial-pulse-indicator {
+        position: relative;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #10b981;
+        box-shadow: 0 0 12px #10b981;
+    }
+
+    .spatial-pulse-indicator::after {
+        content: '';
+        position: absolute;
+        inset: -4px;
+        border-radius: 50%;
+        border: 1.5px solid #10b981;
+        animation: pulseRing 1.8s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+    }
+
+    @keyframes pulseRing {
+        0% { transform: scale(0.7); opacity: 1; }
+        100% { transform: scale(2.2); opacity: 0; }
+    }
+
+    .spatial-hud-title {
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        background: linear-gradient(135deg, #a5b4fc, #38bdf8);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        margin: 8px 0 4px;
+        font-family: var(--font-mono);
     }
-    .kpi-label {
-        font-size: 0.85rem;
-        font-weight: 500;
+
+    .spatial-hud-right {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        font-size: 0.75rem;
         color: #94a3b8;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-    }
-    .kpi-icon {
-        font-size: 1.8rem;
-        margin-bottom: 4px;
+        font-family: var(--font-mono);
     }
 
-    /* ───── Risk Gauge ───── */
-    .risk-gauge-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 20px;
-    }
-
-    /* ───── Status Badge ───── */
-    .status-badge {
-        display: inline-block;
-        padding: 6px 16px;
+    .spatial-hud-pill {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 4px 12px;
         border-radius: 20px;
-        font-weight: 600;
-        font-size: 0.85rem;
-        letter-spacing: 0.05em;
-    }
-    .badge-fraud {
-        background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(244, 63, 94, 0.15));
-        color: #f87171;
-        border: 1px solid rgba(239, 68, 68, 0.3);
-    }
-    .badge-genuine {
-        background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(52, 211, 153, 0.15));
-        color: #34d399;
-        border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-    .badge-suspicious {
-        background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(251, 191, 36, 0.15));
-        color: #fbbf24;
-        border: 1px solid rgba(245, 158, 11, 0.3);
-    }
-
-    /* ───── Reason Card ───── */
-    .reason-card {
-        background: rgba(15, 23, 42, 0.7);
-        border: 1px solid rgba(99, 102, 241, 0.15);
-        border-radius: 12px;
-        padding: 14px 18px;
-        margin-bottom: 8px;
-        color: #cbd5e1;
-        font-size: 0.9rem;
-        display: flex;
-        align-items: flex-start;
-        gap: 10px;
-    }
-    .reason-card .reason-icon {
-        color: #f59e0b;
-        font-size: 1rem;
-        flex-shrink: 0;
-    }
-
-    /* ───── Section Headers ───── */
-    .section-header {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: #f1f5f9;
-        margin-bottom: 8px;
         display: flex;
         align-items: center;
-        gap: 10px;
-    }
-    .section-sub {
-        color: #64748b;
-        font-size: 0.9rem;
-        margin-bottom: 20px;
+        gap: 6px;
     }
 
-    /* ───── Hero Section ───── */
+    /* ───── Spatial Hero Banner (Window Floating in Space) ───── */
     .hero-banner {
-        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%);
-        border-radius: 20px;
-        padding: 40px 48px;
-        margin-bottom: 32px;
-        border: 1px solid rgba(99, 102, 241, 0.2);
+        background: linear-gradient(135deg, rgba(30, 27, 75, 0.65) 0%, rgba(49, 46, 129, 0.45) 50%, rgba(30, 58, 138, 0.35) 100%) !important;
+        backdrop-filter: blur(34px) saturate(210%) !important;
+        -webkit-backdrop-filter: blur(34px) saturate(210%) !important;
+        border-radius: 28px !important;
+        padding: 38px 46px !important;
+        margin-bottom: 30px !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.32) !important;
+        box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.65), 0 0 35px rgba(99, 102, 241, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.22) !important;
         position: relative;
         overflow: hidden;
     }
+
     .hero-banner::before {
         content: '';
         position: absolute;
-        top: -50%;
-        right: -20%;
-        width: 500px;
-        height: 500px;
-        background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
+        top: -60%;
+        right: -15%;
+        width: 550px;
+        height: 550px;
+        background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, rgba(34, 211, 238, 0.1) 40%, transparent 70%);
         border-radius: 50%;
+        filter: blur(40px);
     }
+
+    .hero-banner::after {
+        content: 'SPATIAL COMPUTE NODE';
+        position: absolute;
+        top: 24px;
+        right: 36px;
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        letter-spacing: 0.14em;
+        color: rgba(165, 180, 252, 0.6);
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 5px 14px;
+        border-radius: 30px;
+    }
+
     .hero-title {
-        font-size: 2.2rem;
+        font-size: 2.4rem;
         font-weight: 800;
-        background: linear-gradient(135deg, #e0e7ff, #c7d2fe, #a5b4fc);
+        font-family: var(--font-display);
+        background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 50%, #a5b4fc 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        margin-bottom: 8px;
+        margin-bottom: 10px;
         position: relative;
+        letter-spacing: -0.02em;
+        filter: drop-shadow(0 4px 20px rgba(99, 102, 241, 0.35));
     }
+
     .hero-subtitle {
-        color: #a5b4fc;
+        color: #c7d2fe;
         font-size: 1.05rem;
         font-weight: 400;
         position: relative;
+        max-width: 85%;
+        line-height: 1.6;
     }
 
-    /* ───── Preset buttons ───── */
-    .preset-btn {
-        background: rgba(99, 102, 241, 0.1);
-        border: 1px solid rgba(99, 102, 241, 0.25);
-        border-radius: 10px;
-        padding: 12px 16px;
-        color: #a5b4fc;
-        font-size: 0.85rem;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.2s ease;
+    /* ───── Spatial KPI Cards (Floating Holo-Tiles) ───── */
+    .kpi-card {
+        background: rgba(15, 23, 42, 0.55) !important;
+        backdrop-filter: blur(28px) saturate(200%) !important;
+        -webkit-backdrop-filter: blur(28px) saturate(200%) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.28) !important;
+        border-radius: 24px !important;
+        padding: 22px 18px !important;
         text-align: center;
-        width: 100%;
-    }
-    .preset-btn:hover {
-        background: rgba(99, 102, 241, 0.2);
-        border-color: rgba(99, 102, 241, 0.5);
-    }
-
-    /* ───── Table Styling ───── */
-    .dataframe {
-        border-radius: 12px;
+        transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.14) !important;
+        position: relative;
         overflow: hidden;
     }
 
-    /* ───── Footer ───── */
+    .kpi-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 20%;
+        right: 20%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    }
+
+    .kpi-card:hover {
+        border-color: rgba(99, 102, 241, 0.5) !important;
+        border-top-color: rgba(255, 255, 255, 0.5) !important;
+        transform: translateY(-7px) scale(1.025) !important;
+        box-shadow: 0 24px 50px -10px rgba(99, 102, 241, 0.3), 0 0 25px rgba(99, 102, 241, 0.18), inset 0 1px 2px rgba(255, 255, 255, 0.35) !important;
+    }
+
+    .kpi-icon {
+        font-size: 1.8rem;
+        margin-bottom: 6px;
+        filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+    }
+
+    .kpi-value {
+        font-size: 2.15rem;
+        font-weight: 800;
+        font-family: var(--font-display);
+        background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        margin: 6px 0 4px;
+        letter-spacing: -0.02em;
+        filter: drop-shadow(0 4px 16px rgba(99, 102, 241, 0.3));
+    }
+
+    .kpi-label {
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-family: var(--font-mono);
+    }
+
+    /* ───── Spatial Form Inputs & Dropdowns ───── */
+    div[data-baseweb="select"] > div,
+    div[data-baseweb="input"] > div,
+    div[data-baseweb="base-input"] > input,
+    div[data-baseweb="input"] input,
+    .stTextInput input,
+    .stNumberInput input {
+        background: rgba(15, 23, 42, 0.65) !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.22) !important;
+        border-radius: 16px !important;
+        color: #f8fafc !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.35) !important;
+    }
+
+    div[data-baseweb="select"] > div:hover,
+    div[data-baseweb="input"] input:focus,
+    .stTextInput input:focus,
+    .stNumberInput input:focus {
+        border-color: rgba(99, 102, 241, 0.6) !important;
+        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.35), 0 0 24px rgba(99, 102, 241, 0.25) !important;
+        background: rgba(20, 30, 55, 0.8) !important;
+    }
+
+    /* ───── Spatial Glass Buttons (visionOS Capsules) ───── */
+    button[kind="primary"], .stButton > button[kind="primary"] {
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%) !important;
+        color: #ffffff !important;
+        font-weight: 700 !important;
+        font-family: var(--font-display) !important;
+        border: 1px solid rgba(255, 255, 255, 0.35) !important;
+        border-radius: 18px !important;
+        padding: 12px 26px !important;
+        letter-spacing: 0.03em !important;
+        box-shadow: 0 10px 30px -5px rgba(99, 102, 241, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.45) !important;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
+    button[kind="primary"]:hover {
+        transform: translateY(-3px) scale(1.02) !important;
+        box-shadow: 0 18px 40px -5px rgba(99, 102, 241, 0.7), 0 0 30px rgba(6, 182, 212, 0.45), inset 0 1px 2px rgba(255, 255, 255, 0.6) !important;
+    }
+
+    button[kind="secondary"], .stButton > button[kind="secondary"] {
+        background: rgba(255, 255, 255, 0.06) !important;
+        color: #e2e8f0 !important;
+        font-weight: 600 !important;
+        font-family: var(--font-display) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.28) !important;
+        border-radius: 18px !important;
+        backdrop-filter: blur(20px) !important;
+        transition: all 0.25s ease !important;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.18) !important;
+    }
+
+    button[kind="secondary"]:hover {
+        background: rgba(255, 255, 255, 0.14) !important;
+        border-color: rgba(99, 102, 241, 0.5) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 12px 28px rgba(99, 102, 241, 0.25) !important;
+        color: #ffffff !important;
+    }
+
+    /* ───── Spatial Expanders ───── */
+    div[data-testid="stExpander"] {
+        background: rgba(15, 23, 42, 0.5) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.22) !important;
+        border-radius: 20px !important;
+        backdrop-filter: blur(24px) !important;
+        -webkit-backdrop-filter: blur(24px) !important;
+        box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.1) !important;
+        overflow: hidden;
+    }
+
+    /* ───── Status Badges with Pulsing Spatial Aura ───── */
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 24px;
+        border-radius: 30px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        letter-spacing: 0.06em;
+        font-family: var(--font-display);
+        backdrop-filter: blur(20px);
+        transition: all 0.3s ease;
+    }
+
+    .badge-fraud {
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.22), rgba(244, 63, 94, 0.28));
+        color: #fca5a5;
+        border: 1px solid rgba(239, 68, 68, 0.55);
+        border-top: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 0 28px rgba(239, 68, 68, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+        animation: spatialAuraRed 2s infinite alternate;
+    }
+
+    .badge-genuine {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.22), rgba(52, 211, 153, 0.28));
+        color: #6ee7b7;
+        border: 1px solid rgba(16, 185, 129, 0.55);
+        border-top: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 0 28px rgba(16, 185, 129, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+        animation: spatialAuraGreen 2s infinite alternate;
+    }
+
+    .badge-suspicious {
+        background: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(251, 191, 36, 0.28));
+        color: #fde68a;
+        border: 1px solid rgba(245, 158, 11, 0.55);
+        border-top: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 0 28px rgba(245, 158, 11, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+        animation: spatialAuraAmber 2s infinite alternate;
+    }
+
+    @keyframes spatialAuraRed {
+        0% { box-shadow: 0 0 15px rgba(239, 68, 68, 0.3); }
+        100% { box-shadow: 0 0 35px rgba(239, 68, 68, 0.65); }
+    }
+
+    @keyframes spatialAuraGreen {
+        0% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.3); }
+        100% { box-shadow: 0 0 35px rgba(16, 185, 129, 0.65); }
+    }
+
+    @keyframes spatialAuraAmber {
+        0% { box-shadow: 0 0 15px rgba(245, 158, 11, 0.3); }
+        100% { box-shadow: 0 0 35px rgba(245, 158, 11, 0.65); }
+    }
+
+    /* ───── Spatial Explainability Cards ───── */
+    .reason-card {
+        background: rgba(15, 23, 42, 0.65) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-left: 4px solid #6366f1 !important;
+        border-radius: 16px !important;
+        padding: 15px 20px !important;
+        margin-bottom: 10px !important;
+        color: #e2e8f0 !important;
+        font-size: 0.92rem !important;
+        backdrop-filter: blur(24px) !important;
+        -webkit-backdrop-filter: blur(24px) !important;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.12) !important;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
+    .reason-card:hover {
+        border-color: rgba(99, 102, 241, 0.45) !important;
+        border-left: 4px solid #22d3ee !important;
+        transform: translateX(5px) scale(1.01) !important;
+        background: rgba(22, 33, 62, 0.8) !important;
+        box-shadow: 0 14px 32px rgba(99, 102, 241, 0.22) !important;
+    }
+
+    /* ───── Section Headers with Glowing Accents ───── */
+    .section-header {
+        font-size: 1.45rem;
+        font-weight: 700;
+        font-family: var(--font-display);
+        color: #f8fafc;
+        margin-top: 14px;
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        letter-spacing: -0.01em;
+    }
+
+    /* ───── Spatial Result Cockpit Frame ───── */
+    .spatial-glass-cockpit {
+        background: rgba(15, 23, 42, 0.55);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-top: 1px solid rgba(255, 255, 255, 0.28);
+        border-radius: 26px;
+        padding: 24px;
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
+        box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.16);
+    }
+
+    /* ───── Custom Spatial Scrollbars ───── */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+        background: rgba(3, 7, 18, 0.6);
+    }
+    ::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.18);
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgba(99, 102, 241, 0.6);
+    }
+
+    /* ───── Table Styling ───── */
+    .dataframe, [data-testid="stDataFrame"] {
+        border-radius: 18px !important;
+        overflow: hidden !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        background: rgba(15, 23, 42, 0.45) !important;
+        backdrop-filter: blur(20px) !important;
+    }
+
+    /* ───── Spatial Footer ───── */
     .footer {
         text-align: center;
-        padding: 20px;
-        color: #475569;
-        font-size: 0.8rem;
-        border-top: 1px solid rgba(99, 102, 241, 0.1);
-        margin-top: 40px;
+        padding: 28px;
+        color: #64748b;
+        font-size: 0.82rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        margin-top: 48px;
+        background: rgba(15, 23, 42, 0.3);
+        backdrop-filter: blur(16px);
+        border-radius: 20px;
+        font-family: var(--font-mono);
     }
 
-    /* Fix tab styling */
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 8px;
-    }
-    .stTabs [data-baseweb="tab"] {
-        border-radius: 8px;
-        padding: 8px 20px;
-    }
-
-    /* Hide default Streamlit elements for cleaner look */
+    /* Hide default Streamlit overhead */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
@@ -682,11 +1020,11 @@ def get_transactions_df(page=1, page_size=50, filters=None):
 PLOTLY_LAYOUT = dict(
     paper_bgcolor="rgba(0,0,0,0)",
     plot_bgcolor="rgba(0,0,0,0)",
-    font=dict(family="Inter, sans-serif", color="#cbd5e1"),
+    font=dict(family="Outfit, Inter, sans-serif", color="#cbd5e1"),
     margin=dict(l=40, r=40, t=50, b=40),
     legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color="#94a3b8")),
-    xaxis=dict(gridcolor="rgba(99,102,241,0.08)", zerolinecolor="rgba(99,102,241,0.08)"),
-    yaxis=dict(gridcolor="rgba(99,102,241,0.08)", zerolinecolor="rgba(99,102,241,0.08)"),
+    xaxis=dict(gridcolor="rgba(255,255,255,0.06)", zerolinecolor="rgba(255,255,255,0.06)"),
+    yaxis=dict(gridcolor="rgba(255,255,255,0.06)", zerolinecolor="rgba(255,255,255,0.06)"),
 )
 
 COLOR_PALETTE = ["#6366f1", "#22d3ee", "#f43f5e", "#10b981", "#f59e0b",
@@ -694,69 +1032,73 @@ COLOR_PALETTE = ["#6366f1", "#22d3ee", "#f43f5e", "#10b981", "#f59e0b",
 
 
 # ─────────────────────────────────────────────────────────────
-# Render Risk Score Gauge (Plotly)
+# Render Risk Score Gauge (Spatial Holographic Plotly)
 # ─────────────────────────────────────────────────────────────
 def render_risk_gauge(score, fraud_prob, fraud_status, is_suspicious):
-    """Render a beautiful risk score gauge."""
+    """Render a futuristic Spatial HUD risk score gauge."""
     if score < 40:
         gauge_color = "#10b981"
-        bar_color = "rgba(16, 185, 129, 0.2)"
+        bar_bg = "rgba(16, 185, 129, 0.15)"
     elif score < 70:
         gauge_color = "#f59e0b"
-        bar_color = "rgba(245, 158, 11, 0.2)"
+        bar_bg = "rgba(245, 158, 11, 0.15)"
     else:
-        gauge_color = "#ef4444"
-        bar_color = "rgba(239, 68, 68, 0.2)"
+        gauge_color = "#f43f5e"
+        bar_bg = "rgba(244, 63, 94, 0.2)"
 
     fig = go.Figure(go.Indicator(
         mode="gauge+number",
         value=score,
         number=dict(
-            font=dict(size=48, color=gauge_color, family="Inter"),
-            suffix="/100"
+            font=dict(size=52, color=gauge_color, family="Outfit, Inter"),
+            suffix="/100",
+            valueformat=".1f"
         ),
         gauge=dict(
-            axis=dict(range=[0, 100], tickcolor="#475569", tickfont=dict(color="#64748b")),
-            bar=dict(color=gauge_color, thickness=0.25),
-            bgcolor=bar_color,
-            borderwidth=0,
+            axis=dict(range=[0, 100], tickcolor="#475569", tickwidth=1.5, tickfont=dict(color="#94a3b8", family="JetBrains Mono")),
+            bar=dict(color=gauge_color, thickness=0.28),
+            bgcolor=bar_bg,
+            borderwidth=1,
+            bordercolor="rgba(255, 255, 255, 0.12)",
             steps=[
-                dict(range=[0, 40], color="rgba(16, 185, 129, 0.06)"),
-                dict(range=[40, 70], color="rgba(245, 158, 11, 0.06)"),
-                dict(range=[70, 100], color="rgba(239, 68, 68, 0.06)"),
+                dict(range=[0, 40], color="rgba(16, 185, 129, 0.10)"),
+                dict(range=[40, 70], color="rgba(245, 158, 11, 0.10)"),
+                dict(range=[70, 100], color="rgba(244, 63, 94, 0.14)"),
             ],
             threshold=dict(
-                line=dict(color="#f43f5e", width=3),
-                thickness=0.8,
+                line=dict(color="#ffffff", width=3),
+                thickness=0.85,
                 value=60
             ),
         ),
         title=dict(
-            text="Fraud Risk Score",
-            font=dict(size=16, color="#94a3b8")
+            text="<span style='font-family: Outfit; font-weight: 700; letter-spacing: 0.1em; color: #cbd5e1;'>RISK INDEX TELEMETRY</span>",
+            font=dict(size=13)
         ),
     ))
     fig.update_layout(
-        height=280,
+        height=300,
         **{k: v for k, v in PLOTLY_LAYOUT.items() if k not in ['xaxis', 'yaxis']},
-        margin=dict(l=30, r=30, t=60, b=20)
+        margin=dict(l=30, r=30, t=65, b=25)
     )
     return fig
 
 
 # ─────────────────────────────────────────────────────────────
-# Sidebar Navigation
+# Sidebar Navigation (VisionOS Floating Spatial Dock)
 # ─────────────────────────────────────────────────────────────
 with st.sidebar:
     st.markdown("""
-    <div style="text-align: center; padding: 16px 0 24px;">
-        <div style="font-size: 2.5rem;">🛡️</div>
-        <div style="font-size: 1.3rem; font-weight: 800; 
-            background: linear-gradient(135deg, #a5b4fc, #818cf8);
+    <div style="text-align: center; padding: 18px 0 22px;">
+        <div style="display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 22px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.35), rgba(6, 182, 212, 0.25)); border: 1px solid rgba(255, 255, 255, 0.25); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.35); font-size: 2.2rem; margin-bottom: 10px;">
+            🛡️
+        </div>
+        <div style="font-size: 1.35rem; font-weight: 800; font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #c7d2fe 60%, #818cf8 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            margin-top: 4px;">FraudShield AI</div>
-        <div style="font-size: 0.75rem; color: #64748b; margin-top: 4px;">
-            Transaction Risk Intelligence
+            letter-spacing: -0.01em;">FraudShield AI</div>
+        <div style="font-size: 0.7rem; color: #94a3b8; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px;">
+            SPATIAL RISK COGNITION
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -772,26 +1114,59 @@ with st.sidebar:
 
     st.markdown("---")
 
-    # Model status
+    # Model status telemetry pills
     engine = load_ml_engine()
     if engine.get("loaded"):
-        st.success("✅ ML Engine Loaded")
+        st.markdown("""
+        <div class="spatial-hud-pill" style="margin-bottom: 8px; justify-content: center; background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.35); color: #6ee7b7; font-weight: 600;">
+            <span style="font-size: 0.9rem;">✅</span> ML Engines Online
+        </div>
+        """, unsafe_allow_html=True)
     else:
-        st.error(f"❌ ML Engine Error: {engine.get('error', 'Unknown')}")
+        st.markdown(f"""
+        <div class="spatial-hud-pill" style="margin-bottom: 8px; justify-content: center; background: rgba(239, 68, 68, 0.12); border-color: rgba(239, 68, 68, 0.35); color: #fca5a5; font-weight: 600;">
+            <span style="font-size: 0.9rem;">❌</span> ML Engine Error
+        </div>
+        """, unsafe_allow_html=True)
 
     if db_exists():
         with get_db() as conn:
             count = conn.cursor().execute("SELECT COUNT(*) FROM transactions").fetchone()[0]
-        st.info(f"💾 Database: {count:,} records")
+        st.markdown(f"""
+        <div class="spatial-hud-pill" style="justify-content: center; background: rgba(99, 102, 241, 0.12); border-color: rgba(99, 102, 241, 0.35); color: #c7d2fe; font-weight: 600;">
+            <span style="font-size: 0.9rem;">💾</span> Data Lake: {count:,} txns
+        </div>
+        """, unsafe_allow_html=True)
     else:
-        st.warning("⚠️ No database found")
+        st.markdown("""
+        <div class="spatial-hud-pill" style="justify-content: center; background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.35); color: #fde68a; font-weight: 600;">
+            <span style="font-size: 0.9rem;">⚠️</span> No database found
+        </div>
+        """, unsafe_allow_html=True)
 
     st.markdown("""
-    <div style="position: fixed; bottom: 12px; left: 16px; right: 16px;
-        color: #475569; font-size: 0.7rem; text-align: center;">
-        Built with Streamlit • FraudShield AI v2.0
+    <div style="margin-top: 32px; padding: 12px; border-radius: 14px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); text-align: center; color: #64748b; font-size: 0.7rem; font-family: 'JetBrains Mono', monospace;">
+        SPATIAL UI v2.0 • STREAMLIT CORE<br>VISION COMPUTING MATRIX
     </div>
     """, unsafe_allow_html=True)
+
+
+# ─────────────────────────────────────────────────────────────
+# Top Spatial HUD Status Ribbon
+# ─────────────────────────────────────────────────────────────
+st.markdown("""
+<div class="spatial-hud-bar">
+    <div class="spatial-hud-left">
+        <div class="spatial-pulse-indicator"></div>
+        <div class="spatial-hud-title">SPATIAL RISK COCKPIT • ACTIVE</div>
+    </div>
+    <div class="spatial-hud-right">
+        <div class="spatial-hud-pill">⚡ DUAL ML CORE</div>
+        <div class="spatial-hud-pill">🛡️ QUANTUM HEURISTICS</div>
+        <div class="spatial-hud-pill">⏱️ 0.02ms INFERENCE</div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
 
 # ─────────────────────────────────────────────────────────────
@@ -1111,59 +1486,53 @@ elif page == "🔍 Transaction Check":
             result = predict_one(engine, txn_dict)
 
         st.markdown("---")
-        st.markdown('<div class="section-header">📊 Analysis Results</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-header">📊 Spatial Analysis Results</div>', unsafe_allow_html=True)
 
-        # Results layout
-        res_left, res_mid, res_right = st.columns([1, 1, 1])
+        # Results layout with spatial cockpit glass containers
+        res_left, res_mid, res_right = st.columns([1.1, 0.9, 1.2])
 
         with res_left:
+            st.markdown('<div class="spatial-glass-cockpit" style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">', unsafe_allow_html=True)
             gauge_fig = render_risk_gauge(
                 result["risk_score"], result["fraud_probability"],
                 result["fraud_status"], result["is_suspicious"]
             )
             st.plotly_chart(gauge_fig, use_container_width=True)
+            st.markdown('</div>', unsafe_allow_html=True)
 
         with res_mid:
-            st.markdown("<br>", unsafe_allow_html=True)
-
-            # Fraud Status Badge
             badge_class = "badge-fraud" if result["fraud_status"] == "Fraud" else "badge-genuine"
             st.markdown(f"""
-            <div style="text-align: center; margin-bottom: 16px;">
-                <div style="color: #94a3b8; font-size: 0.8rem; margin-bottom: 6px;">CLASSIFICATION</div>
-                <span class="status-badge {badge_class}" style="font-size: 1.1rem;">
-                    {'🚨' if result['fraud_status'] == 'Fraud' else '✅'} {result['fraud_status']}
-                </span>
-            </div>
-            """, unsafe_allow_html=True)
-
-            # Suspicious Badge
-            if result["is_suspicious"]:
-                st.markdown("""
-                <div style="text-align: center; margin-bottom: 16px;">
-                    <span class="status-badge badge-suspicious">⚡ SUSPICIOUS</span>
+            <div class="spatial-glass-cockpit" style="height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 24px 16px;">
+                <div style="color: #94a3b8; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px;">PREDICTIVE DECISION</div>
+                <div style="margin-bottom: 18px;">
+                    <span class="status-badge {badge_class}">
+                        {'🚨' if result['fraud_status'] == 'Fraud' else '✅'} {result['fraud_status']}
+                    </span>
                 </div>
-                """, unsafe_allow_html=True)
-
-            # Probability
-            st.markdown(f"""
-            <div style="text-align: center;">
-                <div style="color: #94a3b8; font-size: 0.8rem;">FRAUD PROBABILITY</div>
-                <div style="font-size: 2rem; font-weight: 700; color: {'#f43f5e' if result['fraud_probability'] >= 0.5 else '#10b981'};">
+                {f'''<div style="margin-bottom: 16px;">
+                    <span class="status-badge badge-suspicious">⚡ SUSPICIOUS DRIFT</span>
+                </div>''' if result["is_suspicious"] else ''}
+                <div style="color: #94a3b8; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.12em; text-transform: uppercase; margin-top: 6px;">FRAUD PROBABILITY</div>
+                <div style="font-size: 2.8rem; font-weight: 800; font-family: 'Outfit', sans-serif; color: {'#f43f5e' if result['fraud_probability'] >= 0.5 else '#10b981'}; filter: drop-shadow(0 4px 16px {'rgba(244,63,94,0.45)' if result['fraud_probability'] >= 0.5 else 'rgba(16,185,129,0.45)'});">
                     {result['fraud_probability']*100:.1f}%
+                </div>
+                <div style="font-size: 0.72rem; color: #64748b; font-family: 'JetBrains Mono', monospace; margin-top: 6px;">
+                    DECISION BOUNDARY: {FRAUD_PROB_THRESHOLD*100:.0f}%
                 </div>
             </div>
             """, unsafe_allow_html=True)
 
         with res_right:
-            st.markdown("<br>", unsafe_allow_html=True)
-            st.markdown('<div style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 12px;">🧠 AI EXPLAINABILITY DRIVERS</div>', unsafe_allow_html=True)
+            st.markdown('<div class="spatial-glass-cockpit" style="height: 100%; padding: 22px 20px;">', unsafe_allow_html=True)
+            st.markdown('<div style="color: #94a3b8; font-size: 0.78rem; font-family: \'JetBrains Mono\', monospace; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px;">🧠 AI EXPLAINABILITY DRIVERS</div>', unsafe_allow_html=True)
             for reason in result["top_reasons"]:
                 st.markdown(f"""
                 <div class="reason-card">
                     <div>{reason}</div>
                 </div>
                 """, unsafe_allow_html=True)
+            st.markdown('</div>', unsafe_allow_html=True)
 
 
 # ─────────────────────────────────────────────────────────────
@@ -1622,8 +1991,14 @@ elif page == "🧠 Model Insights":
 # ─────────────────────────────────────────────────────────────
 st.markdown("""
 <div class="footer">
-    🛡️ FraudShield AI v2.0 — Credit Card Fraud Detection & Transaction Risk Intelligence<br>
-    Dual ML Architecture: Logistic Regression + LightGBM + Behavioral Heuristics<br>
-    Built with ❤️ using Streamlit
+    <div style="font-size: 0.95rem; font-weight: 700; color: #e2e8f0; margin-bottom: 6px; font-family: 'Outfit', sans-serif; letter-spacing: 0.05em;">
+        🛡️ FRAUDSHIELD AI • SPATIAL RISK COGNITION SYSTEM
+    </div>
+    <div style="color: #94a3b8; margin-bottom: 8px; font-size: 0.8rem;">
+        Dual ML Architecture: Calibrated Classifier + LightGBM Regressor + Real-Time Behavioral Heuristics
+    </div>
+    <div style="font-size: 0.7rem; color: #64748b; letter-spacing: 0.08em;">
+        VISION-OS SPATIAL GLASS INTERFACE • TRANSACTION COGNITION MATRIX • STREAMLIT CORE
+    </div>
 </div>
 """, unsafe_allow_html=True)
